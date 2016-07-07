@@ -1,0 +1,16 @@
+"""
+Matching More than One String (|)
+"""
+import re
+
+text = re.compile("bat|bet|bit")
+mo = text.search("This bat is broken")
+if mo != None:
+    print(mo.group())
+else:
+    print ("Pattern did not match")
+mo2 = text.search ("This female bit me")
+if mo2 is not None:
+    print (mo2.group())
+else:
+    print ("Pattern did not match")
