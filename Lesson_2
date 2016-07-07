@@ -1,0 +1,40 @@
+"""
+"." Match any character (except \n)
+"""
+import re
+
+text = re.compile (r".end")
+mo = text.search ("The can bend bullets too")
+if mo is not None:
+    print (mo.group())
+else:
+    print ("Text did not match")
+
+mo2 = text.search ("end") # No text before ".end" to match, hence no match
+if mo2 is not None:
+    print (mo2.group())
+else:
+    print ("Text did not match")
+
+mo3 = text.search ("I have hit a dead end") # matches ' ' in search
+if mo3 is not None:
+    print (mo3.group())
+else:
+    print ("Text did not match")
+
+"""
+>>> patt314 = '3.14' # regex dot
+>>> pi_patt = '3\.14' # literal dot (dec. point)
+>>> m = re.match(pi_patt, '3.14') # exact match
+>>> if m is not None: m.group()
+...
+'3.14'
+>>> m = re.match(patt314, '3014') # dot matches '0'
+>>> if m is not None: m.group()
+...
+'3014'
+>>> m = re.match(patt314, '3.14') # dot matches '.'
+>>> if m is not None: m.group()
+...
+'3.14'
+"""
