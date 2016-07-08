@@ -1,0 +1,18 @@
+import re
+
+text = re.compile (r"Agent (\w)\w*")
+mo = text.sub (r"\1****", "Agent Alice told Agent Carol that Agent Eve knew Agent Bob was a double agent.")
+print (mo)
+
+
+import re
+
+text = re.compile (r"X")
+mo = text.sub (r"Kanishk Sharan", "Testing Attenion please, Call for Mr.X")
+print (mo)
+
+
+
+>>> namesRegex = re.compile(r'Agent \w+')
+>>> namesRegex.sub('CENSORED', 'Agent Alice gave the secret documents to Agent Bob.')
+'CENSORED gave the secret documents to CENSORED.'
