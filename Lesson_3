@@ -1,0 +1,21 @@
+Creating Character Classes ([])
+Earlier, we had a long discussion about [cr][23][dp][o2] and how it differs
+from r2d2|c3po” In the following examples, we will show that
+r2d2|c3po is more restrictive than [cr][23][dp][o2]:
+
+
+>>> m = re.match('[cr][23][dp][o2]', 'c3po')# matches 'c3po'
+>>> if m is not None: m.group()
+...
+'c3po'
+>>> m = re.match('[cr][23][dp][o2]', 'c2do')# matches 'c2do'
+>>> if m is not None: m.group()
+...
+'c2do'
+>>> m = re.match('r2d2|c3po', 'c2do')# does not match 'c2do'
+>>> if m is not None: m.group()
+...
+>>> m = re.match('r2d2|c3po', 'r2d2')# matches 'r2d2'
+>>> if m is not None: m.group()
+...
+'r2d2'
