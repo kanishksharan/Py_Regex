@@ -1,0 +1,184 @@
+literal                   Match literal string value literal                                                foo
+re1|re2                   Match regular expressions re1 or re2                                              foo|bar
+.                         Match any character (except \n)                                                   b.b
+^                         Match start of string                                                             ^Dear
+$                         Match end of string                                                               /bin/*sh$
+*                         Match 0 or more occurrences of preceding regex                                    [A-Za-z0-9]*
++                         Match 1 or more occurrences of preceding regex                                    [a-z]+\.com
+?                         Match 0 or 1 occurrence(s) of preceding                                           regex goo?
+{N}                       Match N occurrences of preceding regex                                            [0-9]{3}
+{M,N}                     Match from M to N occurrences of preceding regex                                  [0-9]{5,9}
+[...]                     Match any single character from                                                   character class[aeiou]
+[..x-y..]                 Match any single character in the range from x to y                               [0-9],[A-Za-z]
+[^...]                    Do not match any character from                                                   [^aeiou],
+                          character class, including any                                                    [^A-Za-z0-9_]
+                          ranges, if present
+
+(*|+|?|{})?               Apply “non-greedy” versions of above occurrence/repetition                        .*?[a-z]
+                          symbols (*, +, ?, {})
+(...)                     Match enclosed regex and save as subgroup                                         ([0-9]{3})?,
+                                                                                                            f(oo|u)bar
+\d                        Match any decimal digit, same as
+                          [0-9] (\D is inverse of \d: do not                                                data\d+.txt  
+                          match any numeric digit)
+                                                                                        
+\w                        Match any alphanumeric character,                                                 [A-Za-z_]\w+
+                          same as [A-Za-z0-9_] (\W is inverse
+                          of \w)
+
+\s                        Match any whitespace character,                                                     of\sthe
+                          same as [ \n\t\r\v\f] (\S is inverse
+                          of \s)
+
+\b                        Match any word boundary (\B is                                                    \bThe\b
+                          inverse of \b)
+
+\N                        Match saved subgroup N (see (...)                                                 price: \16
+                          above)
+
+\c                        Match any special character c verbatim                                            \., \\, \*
+                          (i.e., without its special meaning,
+                          literal)
+
+\A (\Z)                   Match start (end) of string (also see ^                                           \ADear 
+                          and $ above)
+                         
+(?iLmsux)                 Embed one or more special “flags”                                                 (?x), (?im)
+                          parameters within the regex itself
+                          (vs. via function/method)
+
+(?:...)                   Signifies a group whose match is not                                              (?:\w+\.)*
+                          saved
+
+(?P<name>...)             Like a regular group match only                                                   (?P<data>)
+                          identified with name rather than a
+                          numeric ID
+
+(?P=name)                 Matches text previously grouped by                                                (?P=data)
+                          (?P<name>) in the same string
+
+(?#...)                   Specifies a comment, all contents                                                 (?#comment)
+                          within ignored
+
+(?=...)                   Matches if ... comes next without                                                 (?=.com)
+                          consuming input string; called
+                          positive lookahead assertion
+
+(?!...)                   Matches if ... doesn’t come next                                                  (?!.net)
+                          without consuming input; called
+                          negative lookahead assertion
+
+(?<=...)                  Matches if ... comes prior without                                                (?<=800-)
+                          consuming input string; called positive
+                          lookbehind assertion
+
+(?<!...)                  Matches if ... doesn’t come prior                                                 (?<!192\.168\.)
+                          without consuming input; called
+                          negative lookbehind assertion
+
+(?(id/name)Y|N)           Conditional match of regex Y if                                                     (?(1)y|x
+                          group with given id or name exists
+                          else N; |N is optional
+    
+"""
+The pipe symbol (|), a vertical bar on your keyboard, indicates an
+alternation operation. It is used to separate different regular expressions.
+For example, the following are some patterns that employ alternation,
+along with the strings they match:
+"""
+at|home                   at, home
+r2d2|c3po                 r2d2, c3po
+bat|bet|bit               bat, bet, bit
+
+"""
+The dot or period (.) symbol matches any single character except for \n.
+(Python regexes have a compilation flag [S or DOTALL], which can override
+this to include \ns.) Whether letter, number, whitespace (not including
+“\n”), printable, non-printable, or a symbol, the dot can match them all.
+"""
+f.o                       Any character between “f ” and “o”; for example,
+fao, f9o, f#o, etc.       .. Any pair of characters
+.end                      Any character before the string end
+^From                     Any string that starts with From
+/bin/tcsh$                Any string that ends with /bin/tcsh
+^Subject: hi$             Any string consisting solely of the string Subject: hi
+the                       Any string containing the
+\bthe                     Any word that starts with the
+\bthe\b                   Matches only the word the
+\Bthe                     Any string that contains but does not begin with the
+b[aeiu]t                  bat, bet, bit, but
+[cr][23][dp][o2]          A string of four characters: first is “c” or “r,”
+                          then “2” or “3,” followed by “d” or “p,” and
+                          finally, either “o” or “2.” For example, c2do,
+                          r3p2, r2d2, c3po, etc.
+z.[0-9]                   “z” followed by any character then followed by a
+                          single digit
+[r-u][env-y]              “r,” “s,” “t,” or “u” followed by “e,” “n,” “v,” “w,”
+                          “x,” or “y” followed by “u” or “s”
+                          [us]
+
+[^aeiou]                  A non-vowel character (Exercise: why do we say
+                          “non-vowels” rather than “consonants”?)
+[^\t\n]                   Not a TAB or \n
+["-a]                     In an ASCII system, all characters that fall between
+                          ‘"’ and “a,” that is, between ordinals 34 and 97
+                          
+[dn]ot?                   “d” or “n,” followed by an “o” and, at most,
+                          one “t” after that; thus, do, no, dot, not.
+0?[1-9]                   Any numeric digit, possibly prepended with
+                          a “0.” For example, the set of numeric representations
+                          of the months January to September,
+                          whether single or double-digits.
+[0-9]{15,16}              Fifteen or sixteen digits (for example, credit
+                          card numbers.
+</?[^>]+>                 Strings that match all valid (and invalid)
+                          HTML tags.
+[KQRBNP][a-h][1-8]-
+[a-h][1-8]
+                          Legal chess move in “long algebraic” notation
+                          (move only, no capture, check, etc.); that is,
+                          strings that start with any of “K,” “Q,” “R,”
+                          “B,” “N,” or “P” followed by a hyphenatedpair
+                          of chess board grid locations from “a1” to
+                          “h8” (and everything in between), with the
+                          first coordinate indicating the former position,
+                          and the second being the new position.
+                          
+\w+-\d+                   Alphanumeric string and number separated by a
+                          hyphen
+[A-Za-z]\w*               Alphabetic first character; additional characters (if
+                          present) can be alphanumeric (almost equivalent to
+                          the set of valid Python identifiers [see exercises])
+\d{3}-\d{3}-              American-format telephone numbers with an area
+\d{4}                     code prefix, as in 800-555-1212
+
+\w+@\w+\.com              Simple e-mail addresses of the form XXX@YYY.com
+
+\d+(\.\d*)?               Strings representing simple floating-point numbers;
+                          that is, any number of digits followed
+                          optionally by a single decimal point and zero or
+                          more numeric digits, as in “0.004,” “2,” “75.,” etc.
+(Mr?s?\. )?[A-Z]
+[a-z]* [ A-Za-z-]+
+                          First name and last name, with a restricted first
+                          name (must start with uppercase; lowercase only
+                          for remaining letters, if any), the full name, prepended
+                          by an optional title of “Mr.,” “Mrs.,”
+                          “Ms.,” or “M.,” and a flexible last name, allowing
+                          for multiple words, dashes, and uppercase letters
+                          
+(?:\w+\.)*                Strings that end with a dot, like “google.”, “twitter.”,
+                          “facebook.”, but such matches are neither saved for
+                          use nor retrieval later.
+(?#comment)               No matching here, just a comment.
+(?=.com)                  Only do a match if “.com” follows; do not consume
+                          any of the target string.
+(?!.net)                  Only do a match if “.net” does not follow.
+(?<=800-)                 Only do a match if string is preceded by “800-”, presumably
+                          for phone numbers; again, do not consume
+                          the input string.
+(?<!192\.168\.)           Only do a match if string is not preceded by “192.168.”,
+                          presumably to filter out a group of Class C IP addresses.
+(?(1)y|x)                 If a matched group 1 (\1) exists, match against y;
+                          otherwise, match against x.
+                                                                      
