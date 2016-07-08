@@ -31,7 +31,7 @@ $                         Match end of string                                   
                           of \s)
 
 \b                        Match any word boundary (\B is                                                    \bThe\b
-                          inverse of \b)
+                          inverse of \b) "whole words only"
 
 \N                        Match saved subgroup N (see (...)                                                 price: \16
                           above)
